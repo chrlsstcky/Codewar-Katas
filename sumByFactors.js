@@ -25,10 +25,13 @@ I = [12, 15]; //result = [[2, 12], [3, 27], [5, 15]]
 function addNums(factors, num){
   let factsAndNums = []
   let currentNumAndSum = []
+  factors.sort((a, b)=>{
+    return a - b 
+  })
   for(var i = 0; i < factors.length; i++){
     currentNumAndSum.push(factors[i], 0)
     for(var j = 0; j < num.length; j++){
-      if(num[j] % factors[i] === 0 && factors[i] !== num[j]){
+      if(num[j] % factors[i] === 0){
         currentNumAndSum[1] += num[j] 
       }
     }
@@ -39,16 +42,31 @@ function addNums(factors, num){
 }
 
 function sumOfDivided(lst) {
-  let nonRootFactors = []
   let rootFactors = []
+  let factCount = 0 
+  let root = 0 
   lst.forEach((num)=>{
-    if(num % 2 === 0 && !rootFactors.includes(2)) rootFactors.push(2)
-    if(num % 3 === 0 && !rootFactors.includes(3)) rootFactors.push(3)
-    for(var i = 4; i <= num; i++){
-      if(num % i === 0 && i % 2 !== 0 && i % 3 !== 0 && !rootFactors.includes(i)) rootFactors.push(i)
-     }
+    if(num > 0){
+      for(var i = 2; i < num; i++){
+        if(num % i === 0 && !rootFactors.includes(i)){
+          factCount++
+          if(rootFactors.length > 0){
+            rootFactors.forEach((number)=>{
+              if(i % number === 0){
+                root = number 
+              }
+            })
+          }
+        }
+      if(root > 0) rootFactors.push(root);
+      root = 0;
+      }
+    }
+    if(factCount === 0 && num > 0) rootFactors.push(num);
+    factCount = 0
   })
-  return addNums(rootFactors, lst)
+  return console.log(addNums(rootFactors, lst))
 }
 
-sumOfDivided([12, 15, 17, 34, 51])
+
+sumOfDivided([17,-17,51,-51])
