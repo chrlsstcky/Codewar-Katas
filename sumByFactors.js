@@ -57,6 +57,7 @@ function sumOfDivided(lst) {
               }
             })
           }
+          rootFactors.push(i)
         }
       if(root > 0) rootFactors.push(root);
       root = 0;
